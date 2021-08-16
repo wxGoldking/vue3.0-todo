@@ -1,16 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="wrapper">
+    Vue3.0 + TypeScript
+    <todo-input></todo-input>
+    <todo-list></todo-list>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
-
+import TodoInput from './components/TodoInput/index.vue';
+import TodoList from './components/TodoList/index.vue';
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    TodoList,
+    TodoInput
+  },
+  setup() {
   }
 });
 </script>

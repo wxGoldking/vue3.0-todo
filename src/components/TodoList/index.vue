@@ -12,40 +12,32 @@
     </div>
 </template>
 
-<script lang="ts">
-import { IUseTodo, useTodo } from '@/hooks';
+<script setup lang="ts">
+import { IUseTodo, IUseLocalStorage, useLocalStorage, useTodo } from '@/hooks';
 import { ITodo } from '@/typings';
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted, watch } from 'vue';
 import { useStore, Store } from 'vuex';
 import TodoItem from './TodoItem.vue';
-export default defineComponent({
-    name: "TodoList",
-    components: {
-        TodoItem
-    },
-    setup () {
-        const {
-            setTodoList,
-            removeTodo,
-            setStatus,
-            setDoing
-        }: IUseTodo = useTodo();
+    const {
+        setTodoList,
+        removeTodo,
+        setStatus,
+        setDoing
+    }: IUseTodo = useTodo();
+    const {setLocalList}: IUseLocalStorage = useLocalStorage();
 
-        const store: Store<any> = useStore();
+    const store: Store<any> = useStore();
+    const todoList = computed<ITodo[]>(() => store.state.list);
 
-
-        onMounted(() => {
-            setTodoList();
-        })
-
-        return {
-            todoList: computed(() => store.state.list),
-            removeTodo,
-            setStatus,
-            setDoing
-        }
-    }
-})
+    watch(() => {
+        return store.state.list;
+    }, (todoList: ITodo[]) => {
+        console.log(todoList)
+        setLocalList(todoList);
+    })
+    onMounted(() => {
+        setTodoList();
+    })
 </script>
 
 <style lang="scss" scoped>

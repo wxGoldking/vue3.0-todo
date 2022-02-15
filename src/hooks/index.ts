@@ -1,4 +1,3 @@
-import { watch } from 'vue';
 import { ITodo, TODO_STATUS } from "@/typings"
 import { useStore, Store } from 'vuex'
 import { SET_TODO, SET_TODO_LIST, REMOVE_TODO, SET_STATUS, SET_DOING_STATUS } from '@/store/actionTypes';
@@ -11,7 +10,7 @@ export interface IUseTodo {
     setDoing: (id: number) => void;
 }
 
-interface IUseLocalStorage {
+export interface IUseLocalStorage {
     getLocalList: () => ITodo[];
     setLocalList: (todoList: ITodo[]) => void;
 }
@@ -19,15 +18,9 @@ interface IUseLocalStorage {
 function useTodo(): IUseTodo {
 
     const store: Store<any> = useStore();
-    const {setLocalList, getLocalList}: IUseLocalStorage = useLocalStorage();
+    const {getLocalList}: IUseLocalStorage = useLocalStorage();
     const todoList: ITodo[] = getLocalList();
 
-
-    watch(() => {
-        return store.state.list;
-    }, (todoList: ITodo[]) => {
-        setLocalList(todoList);
-    })
 
     function setTodo(value: string): void {
         const todo: ITodo = {
@@ -62,7 +55,7 @@ function useTodo(): IUseTodo {
 }
 
 
-function useLocalStorage() {
+export function useLocalStorage() {
     function getLocalList(): ITodo[] {
         return JSON.parse(localStorage.getItem('todoList') || '[]');
     }

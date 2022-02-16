@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, PropType, SetupContext, defineProps, defineEmits } from "vue";
+import { PropType, defineProps, defineEmits } from "vue";
 import { ITodo, TODO_STATUS } from '@/typings';
     // interface IStatusState {
     //     DOING: TODO_STATUS;

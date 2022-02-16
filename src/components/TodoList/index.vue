@@ -29,10 +29,7 @@ import TodoItem from './TodoItem.vue';
     const store: Store<any> = useStore();
     const todoList = computed<ITodo[]>(() => store.state.list);
 
-    watch(() => {
-        return store.state.list;
-    }, (todoList: ITodo[]) => {
-        console.log(todoList)
+    watch(() => store.state.list, (todoList: ITodo[]) => {
         setLocalList(todoList);
     })
     onMounted(() => {

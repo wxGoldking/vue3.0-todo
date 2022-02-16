@@ -1,14 +1,4 @@
-<template>
-    <div>
-        <input
-            type="text"
-            v-model="todoValue"
-            @keyup.enter="setTodoValue"
-        >
-    </div>
-</template>
-
-<script lang='ts'>
+<script lang='tsx'>
 import { defineComponent, ref } from "vue";
 import { IUseTodo, useTodo } from '../../hooks'
  
@@ -19,16 +9,26 @@ export default defineComponent({
         const { setTodo }: IUseTodo = useTodo();
 
         const setTodoValue = (e: KeyboardEvent): void => {
+            if (e.code !== 'Enter') return;
             if(todoValue.value.trim()) {
                 // 设置数据
                 setTodo(todoValue.value)
                 todoValue.value = '';
             }
         }
-        return {
-            todoValue,
-            setTodoValue
+        const inputHandler = (event: Event):void => {
+            todoValue.value = (event.target as HTMLInputElement).value
         }
+        return () => (
+            <div>
+                <input
+                    type="text"
+                    value={todoValue.value}
+                    onInput={inputHandler}
+                    onKeyup={setTodoValue}
+                />
+            </div>
+        )
     }
 })
 </script>
